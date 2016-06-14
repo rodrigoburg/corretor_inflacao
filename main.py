@@ -30,7 +30,8 @@ def scraper(data1,data2,indice,Sessao):
 	r = Sessao.post(url, data = dados, headers=cabecalho)
 	fator = (float(r.text.split("Valor percentual")[1].split('class="fundoPadraoAClaro3 ">')[1].split(" %")[0].replace(",","."))/100)+1
 	print(data1,data2,fator)
-	return fator
+	item = {"data1":data1,"data2":data2,"fator":fator}
+	return item
 
 def acha_intervalo(data1,data2,intervalo):
 	data1 = [int(d) for d in data1.split("/")]
@@ -86,4 +87,4 @@ indices = {
 
 intervalos = ["mes","ano"]
 
-corrige("01/1995","01/1996",indices["ipca"],intervalos[0])
+corrige("01/1995","01/2016",indices["ipca"],intervalos[1])
