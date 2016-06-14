@@ -40,7 +40,7 @@ def acha_intervalo(data1,data2,intervalo):
 	if intervalo == "ano":
 		dif = data2[1] - data1[1]
 		for i in range(dif):
-			data = str(data1[0]).zfill(2) + "/" + str(data1[1]+i+1)
+			data = str(data1[0]).zfill(2) + "/" + str(data1[1]+i)
 			datas.append(data)
 	elif intervalo == "mes":
 		mes_atual = data1[0]
@@ -48,6 +48,8 @@ def acha_intervalo(data1,data2,intervalo):
 		data_atual = int(str(data1[1])+str(data1[0]).zfill(2))
 		data_final = int(str(data2[1])+str(data2[0]).zfill(2))
 		while data_atual < data_final:
+			data = str(mes_atual).zfill(2) + "/" + str(ano_atual)
+			datas.append(data)
 			if mes_atual < 12:
 				mes_atual += 1
 				data_atual += 1
@@ -55,8 +57,7 @@ def acha_intervalo(data1,data2,intervalo):
 				mes_atual = 1
 				ano_atual += 1
 				data_atual += 100
-			data = str(mes_atual).zfill(2) + "/" + str(ano_atual)
-			datas.append(data)
+			data_atual = int(str(ano_atual)+str(mes_atual).zfill(2))
 
 	return datas
 
@@ -67,9 +68,10 @@ def corrige(data1,data2,indice,intervalo):
 	Sessao.get(url)
 	datas = acha_intervalo(data1,data2,intervalo)
 	dados = []
+	print(datas)
 
 	for d in datas:
-		dados.append(scraper(data1,d,indice,Sessao))
+		dados.append(scraper(d,data2,indice,Sessao))
 
 	dados = DataFrame(dados)
 	dados.to_csv("correcao_indice.csv",index=None)
